@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine, Neel?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        body {
+            background-color: #ffe6e6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2.5rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3);
+            max-width: 850px;
+            width: 100%;
+            z-index: 10;
+            position: relative;
+            border: 10px solid #ffb6c1;
+            margin: 20px auto;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-1deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(1deg);
+            }
+        }
+
+        h1 {
+            color: #ff4081;
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 4px 4px 0 #ffb6c1;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::before,
+        h1::after {
+            content: '💖';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+        }
+
+        h1::before {
+            left: -70px;
+            animation: spin 4s linear infinite;
+        }
+
+        h1::after {
+            right: -70px;
+            animation: spin 4s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translateY(-50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        .name-highlight {
+            color: #d81b60;
+            background-color: #fff0f5;
+            padding: 0.3rem 1rem;
+            border-radius: 15px;
+            display: inline-block;
+            transform: rotate(-3deg);
+            border: 3px dotted #ff4081;
+            animation: namePulse 2s infinite;
+            font-size: 1.1em;
+        }
+
+        @keyframes namePulse {
+
+            0%,
+            100% {
+                transform: rotate(-3deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(-3deg) scale(1.05);
+            }
+        }
+
+        .message {
+            font-size: 1.8rem;
+            color: #d81b60;
+            margin: 2.5rem 0;
+            line-height: 1.7;
+            padding: 2rem;
+            background-color: #fff0f5;
+            border-radius: 20px;
+            border: 5px dashed #ff4081;
+            position: relative;
+        }
+
+        .message::before {
+            content: "💌";
+            position: absolute;
+            left: -30px;
+            top: -30px;
+            font-size: 3rem;
+            animation: bounce 2s infinite;
+        }
+
+        .message::after {
+            content: "💝";
+            position: absolute;
+            right: -30px;
+            bottom: -30px;
+            font-size: 3rem;
+            animation: bounce 2s infinite reverse;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin: 3rem 0 1rem;
+            position: relative;
+            min-height: 160px;
+            padding: 1.5rem;
+        }
+
+        .valentine-btn {
+            padding: 1.5rem 4rem;
+            font-size: 2rem;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            z-index: 20;
+            min-width: 200px;
+        }
+
+        #yes-btn {
+            background: linear-gradient(145deg, #ff4081, #e91e63);
+            color: white;
+            left: 25%;
+            transform: translateX(-50%);
+            border: 5px solid #ff80ab;
+        }
+
+        #yes-btn:hover {
+            background: linear-gradient(145deg, #e91e63, #c2185b);
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 15px 25px rgba(233, 30, 99, 0.5);
+        }
+
+        #no-btn {
+            background: linear-gradient(145deg, #4CAF50, #2E7D32);
+            color: white;
+            right: 25%;
+            transform: translateX(50%);
+            transition: left 0.1s, top 0.1s;
+            border: 5px solid #81c784;
+        }
+
+        #no-btn:hover {
+            background: linear-gradient(145deg, #388E3C, #1B5E20);
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff4081;
+            font-size: 24px;
+            animation: fall linear forwards;
+            opacity: 0.7;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .response-message {
+            font-size: 2.5rem;
+            color: #ff4081;
+            margin: 3rem 0 2rem;
+            padding: 2.5rem;
+            background-color: #fff0f5;
+            border-radius: 20px;
+            border: 7px solid #ff4081;
+            animation: pulse 1.5s infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .en-heart {
+            font-size: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+            background: linear-gradient(45deg, #ff4081, #ff80ab);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            border: 5px solid #ffb6c1;
+            font-weight: bold;
+        }
+
+        .en-heart span {
+            display: inline-block;
+            animation: letterBounce 1s infinite alternate;
+        }
+
+        .en-heart span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .en-heart span:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes letterBounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #ff4081;
+            font-size: 1.2rem;
+            text-align: center;
+            width: 100%;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 800px;
+        }
+
+        /* Scrollbar styling */
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #ffccd5;
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #ff4081;
+            border-radius: 10px;
+            border: 3px solid #ffccd5;
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background: #e91e63;
+        }
+
+        /* Ensure everything fits */
+        html {
+            overflow-y: scroll;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 1.8rem;
+                margin: 15px auto;
+            }
+
+            h1 {
+                font-size: 2.3rem;
+            }
+
+            h1::before,
+            h1::after {
+                font-size: 1.8rem;
+                position: relative;
+                display: inline-block;
+                left: 0;
+                right: 0;
+                margin: 0 10px;
+            }
+
+            .message {
+                font-size: 1.5rem;
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+
+            .message::before,
+            .message::after {
+                font-size: 2rem;
+                left: -15px;
+                right: -15px;
+            }
+
+            .valentine-btn {
+                padding: 1.2rem 3rem;
+                font-size: 1.7rem;
+                min-width: 170px;
+                position: relative;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
+                margin: 10px;
+            }
+
+            .buttons-container {
+                min-height: auto;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .response-message {
+                font-size: 2rem;
+                padding: 2rem;
+                margin: 2rem 0 1.5rem;
+            }
+
+            .en-heart {
+                font-size: 3rem;
+                padding: 1.5rem 2rem;
+                gap: 1.5rem;
+            }
+
+            .footer {
+                margin-top: 20px;
+                padding: 12px;
+            }
+        }
+
+        /* For very small screens */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.9rem;
+            }
+
+            .message {
+                font-size: 1.3rem;
+                padding: 1.2rem;
+            }
+
+            .valentine-btn {
+                padding: 1rem 2.5rem;
+                font-size: 1.5rem;
+                min-width: 150px;
+            }
+
+            .response-message {
+                font-size: 1.7rem;
+                padding: 1.5rem;
+            }
+
+            .en-heart {
+                font-size: 2.5rem;
+                padding: 1.2rem 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hearts-container" id="hearts-container"></div>
+
+    <div class="container">
+        <h1><i class="fas fa-heart"></i> Happy Valentine's Day! <i class="fas fa-heart"></i></h1>
+
+        <div class="message">
+            Dear <span class="name-highlight">Neel</span>, you make every day brighter and my heart happier.<br>
+            <strong>Will you be my Valentine?</strong> 💖
+        </div>
+
+        <div class="buttons-container">
+            <button class="valentine-btn" id="yes-btn">YES! <i class="fas fa-heart"></i></button>
+            <button class="valentine-btn" id="no-btn">No <i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="response-message hidden" id="response-message">
+            <div>Yay! You've made me the happiest! 💕</div>
+            <div>I love you 💝</div>
+            <div> E 💝 N</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Made with <i class="fas fa-heart" style="color: #ff4081;"></i> for Neel
+    </div>
+
+    <script>
+        // Create fewer floating hearts (15 instead of 50)
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartCount = 15; // Reduced from 50
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                // Fewer heart variations
+                const hearts = ['❤️', '💖', '💗'];
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.classList.add('heart');
+                
+                // Random position and size
+                const size = Math.random() * 25 + 20;
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 15 + 10;
+                const delay = Math.random() * 3;
+                
+                heart.style.fontSize = `${size}px`;
+                heart.style.left = `${left}%`;
+                heart.style.animationDuration = `${animationDuration}s`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.opacity = Math.random() * 0.5 + 0.3;
+                
+                heartsContainer.appendChild(heart);
+                
+                // Remove heart after animation completes
+                setTimeout(() => {
+                    if (heart.parentNode) {
+                        heart.remove();
+                    }
+                }, (animationDuration + delay) * 1000);
+            }
+        }
+        
+        // Create hearts initially and then every 20 seconds (less frequent)
+        createHearts();
+        setInterval(createHearts, 20000);
+        
+        // Make the "No" button run away from cursor
+        const noBtn = document.getElementById('no-btn');
+        const buttonsContainer = document.querySelector('.buttons-container');
+        const yesBtn = document.getElementById('yes-btn');
+        const responseMessage = document.getElementById('response-message');
+        
+        // Function to move the "No" button away from cursor
+        function moveButtonAway(event) {
+            const buttonRect = noBtn.getBoundingClientRect();
+            const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+            const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+            
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+            
+            // Calculate distance between cursor and button center
+            const distanceX = mouseX - buttonCenterX;
+            const distanceY = mouseY - buttonCenterY;
+            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            
+            // If cursor is too close to the button, move it away
+            const minDistance = 120;
+            
+            if (distance < minDistance) {
+                // Calculate new position (opposite direction from cursor)
+                const containerRect = buttonsContainer.getBoundingClientRect();
+                
+                // Max movement distance
+                const moveDistance = 100;
+                
+                // Calculate movement direction (away from cursor)
+                const moveX = -distanceX / distance * moveDistance;
+                const moveY = -distanceY / distance * moveDistance;
+                
+                // Get current position
+                const currentLeft = parseFloat(noBtn.style.left) || 50;
+                const currentTop = parseFloat(noBtn.style.top) || 0;
+                
+                // Calculate new position
+                let newLeft = currentLeft + moveX;
+                let newTop = currentTop + moveY;
+                
+                // Keep button within container bounds
+                newLeft = Math.max(10, Math.min(newLeft, 90));
+                newTop = Math.max(-30, Math.min(newTop, 60));
+                
+                // Apply new position
+                noBtn.style.left = `${newLeft}%`;
+                noBtn.style.top = `${newTop}px`;
+                
+                // Change color when running away
+                noBtn.style.background = 'linear-gradient(145deg, #f44336, #d32f2f)';
+                noBtn.style.borderColor = '#ff8a80';
+                
+                // Add shake animation
+                noBtn.style.animation = 'shake 0.5s';
+            } else {
+                // Reset animation
+                noBtn.style.animation = '';
+            }
+        }
+        
+        // Add shake animation for no button
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(50%) rotate(0deg); }
+                25% { transform: translateX(50%) rotate(5deg); }
+                50% { transform: translateX(50%) rotate(-5deg); }
+                75% { transform: translateX(50%) rotate(5deg); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+        
+        // Add mousemove event listener to the document
+        document.addEventListener('mousemove', moveButtonAway);
+        
+        // Yes button click handler
+        yesBtn.addEventListener('click', function() {
+            // Hide the buttons
+            document.querySelector('.buttons-container').classList.add('hidden');
+            
+            // Show response message with E ❤️ N
+            responseMessage.classList.remove('hidden');
+            
+            // Create celebratory hearts (fewer than before)
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createCelebrationHeart();
+                }, i * 150);
+            }
+            
+            // Change page background to celebration mode
+            document.body.style.background = 'linear-gradient(45deg, #ffe6e6, #ffccd5, #ffb6c1)';
+            
+            // Scroll to response to make sure it's visible
+            setTimeout(() => {
+                responseMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+        
+        // No button click handler (if somehow clicked)
+        noBtn.addEventListener('click', function() {
+            // Move the button even further away
+            noBtn.style.left = `${Math.random() * 70 + 10}%`;
+            noBtn.style.top = `${Math.random() * 100 - 30}px`;
+            
+            // Change text to encourage clicking yes
+            const messages = [
+                "Are you sure?",
+                "Think again!",
+                "Maybe reconsider?",
+                "Yes is better!",
+                "Click Yes instead!",
+                "Don't do it!",
+                "I'm shy!",
+                "Try Yes!",
+                "Pretty please?"
+            ];
+            noBtn.textContent = messages[Math.floor(Math.random() * messages.length)];
+            noBtn.innerHTML += ' <i class="fas fa-smile-wink"></i>';
+            noBtn.style.background = 'linear-gradient(145deg, #FF9800, #F57C00)';
+            noBtn.style.borderColor = '#FFB74D';
+            
+            // After 1.5 seconds, change back
+            setTimeout(() => {
+                noBtn.textContent = "No \u2716";
+                noBtn.style.background = 'linear-gradient(145deg, #4CAF50, #2E7D32)';
+                noBtn.style.borderColor = '#81c784';
+            }, 1500);
+        });
+        
+        // Create special celebration hearts (fewer)
+        function createCelebrationHeart() {
+            const heart = document.createElement('div');
+            // Simple hearts only
+            const hearts = ['💖', '❤️', '💕'];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.position = 'fixed';
+            heart.style.fontSize = `${Math.random() * 40 + 30}px`;
+            heart.style.left = `${Math.random() * 100}vw`;
+            heart.style.top = `${Math.random() * 100}vh`;
+            heart.style.zIndex = '100';
+            heart.style.pointerEvents = 'none';
+            
+            // Random color for celebration hearts
+            const colors = ['#ff4081', '#e91e63', '#ff80ab'];
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.body.appendChild(heart);
+            
+            // Animation for celebration hearts
+            const animation = heart.animate([
+                { transform: 'scale(0) rotate(0deg)', opacity: 1 },
+                { transform: 'scale(1.5) rotate(180deg)', opacity: 0.9 },
+                { transform: 'scale(1) rotate(360deg)', opacity: 1 }
+            ], {
+                duration: 1500,
+                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+            });
+            
+            // Remove heart after animation
+            animation.onfinish = () => {
+                heart.remove();
+            };
+        }
+        
+        // Add some initial celebration hearts (fewer)
+        setTimeout(() => {
+            for (let i = 0; i < 5; i++) {
+                createCelebrationHeart();
+            }
+        }, 800);
+        
+        // Ensure page loads with everything visible and scrollable
+        window.addEventListener('load', function() {
+            // Make sure we can scroll
+            document.body.style.overflowY = 'auto';
+            
+            // Check if content is taller than viewport
+            const container = document.querySelector('.container');
+            const footer = document.querySelector('.footer');
+            const totalHeight = container.offsetHeight + footer.offsetHeight + 100;
+            
+            if (totalHeight > window.innerHeight) {
+                // If content is tall, add some padding at bottom
+                document.body.style.paddingBottom = '40px';
+            }
+            
+            // Scroll to top on load
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+
+</html>
